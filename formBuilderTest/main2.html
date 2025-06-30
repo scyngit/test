@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>通用表单设计器</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/svg/icon.svg" type="image/svg+xml" />
+
+    <!-- 引入 jQuery -->
+    <!-- <script src="js/jquery.min.js"></script> -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/jquery-ui-1.13.2.min.js"></script>
+
+    <!-- 引入 form-builder -->
+    <script src="js/form-builder.min.js?v=3.20.0"></script>
+
+    <!-- 引入 form-render -->
+    <script src="js/form-render.min.js?v=3.20.0"></script>
+
+    <!-- 引入plugins控件 -->
+    <script src="js/control_camera.js"></script>
+    <!-- <script src="js/control_plugins/starRating.js"></script>     -->
+
+    <link rel="stylesheet" href="css/site2.min.css" />
+    <link rel="stylesheet" href="css/vendor.min.css" />
+
+    <!-- 自己的js 加版本号让浏览器强制重新加载 -->
+    <script src="js/main2.js?v=20250629"></script>
+  </head>
+  <body class="scrollable-modern">
+    <div class="edit-area">
+      <!-- 左侧侧边栏 -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <img src="assets/png/logo.png" alt="表单设计器" class="logo" /><span>表单设计器</span>
+          </div>
+          <button id="new-form-btn">➕ 新表单</button>
+        </div>
+        <div class="form-list-title">所有表单</div>
+        <ul class="form-list" id="saved-forms">
+          <!-- 表单文件列表（之后JS动态填充） -->
+        </ul>
+
+        <!-- 底部固定区 -->
+        <div class="sidebar-footer">
+            <svg aria-hidden="true" role="graphics-symbol" viewBox="0 0 20 20" class="mail" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; fill: rgba(71, 70, 68, 0.6); flex-shrink: 0;"><path fill-rule="evenodd" d="M17.4685918,3.4486694c-.276062-.4232178-.7411499-.6759033-1.2441406-.6759033-.1889648,0-.3743896.0357056-.5512085.1061401L3.0777837,7.8930664c-.40271.1603394-.6936035.5178223-.7687378.9447021s.0762329.8622437.4000244,1.1503906l2.4732056,2.2012329v4.2337646c0,.6617432.793457,1.0004272,1.2713013.5426636l1.9723511-1.8895264,2.0613403,1.8346558c.2311401.2056885.52771.3162842.8310547.3162842.088501,0,.1775513-.0094604.2657471-.0286255.390625-.0849609.71698-.3516235.8781738-.7174683l5.1207275-11.6225586c.2032471-.4614868.1604614-.9884644-.1143799-1.4099121ZM16.4390508,4.3546143l-5.1207275,11.6225586-3.963623-3.52771,5.2460327-5.0794067c.064209-.065918.0716553-.168457.0177002-.243042-.0568237-.0785522-.1638184-.1014404-.2478638-.0530396l-6.562439,3.9990234-2.2680054-2.0185547,12.5956421-5.0142822c.0299683-.0119019.0598755-.017395.0886841-.017395.15979,0,.2867432.1680908.2145996.3318481Z" clip-rule="evenodd"></path></svg>
+            <span>Ver. 20250630</span>
+        </div>
+      </div>
+
+      <!-- 右侧主编辑区域（包含form-render和form-builder） -->
+      <div class="main-area">
+        <div id="form-render" class="my-render panel"></div>
+        <div id="form-builder" class="my-builder panel"></div>
+      </div>
+    </div>
+  </body>
+</html>

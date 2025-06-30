@@ -1,0 +1,1 @@
+[{"type":"header","subtype":"h1","label":"标题"},{"type":"paragraph","subtype":"p","label":"说明文字"},{"type":"text","required":false,"label":"单行输入","rowNumber":1,"colWidth":"col-md-3","className":"form-control row-1 col-md-3","name":"text-1751007690697-0","subtype":"text"}]

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>getUserMedia Demo</title>
+</head>
+<body>
+  <video autoplay playsinline></video>
+  <br>
+  <button id="switch">🔄 切换摄像头</button>
+  <button id="start">🎬 开始录制</button>
+  <button id="stop" disabled>🛑 停止录制</button>
+  <a id="downloadLink" style="display:none;">⬇️ 下载视频</a>
+  <br><br>
+  <button id="capture">📸 拍照</button>
+  <canvas></canvas>
+</body>
+</html>
+
+<script>
+const video = document.querySelector('video');
+const canvas = document.querySelector('canvas');
+const captureBtn = document.getElementById('capture');
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+const switchBtn = document.getElementById('switch');
+const downloadLink = document.getElementById('downloadLink');
+
+let stream;
+let mediaRecorder;
+let recordedChunks = [];
+let currentDeviceId = null;
+let videoDevices = [];
+let currentDeviceIndex = 0;
+
+// 获取所有摄像头设备
+navigator.mediaDevices.enumerateDevices().then(devices => {
+
+    devices.forEach(device => {
+       alert(`${device.kind}: ${device.label} (${device.deviceId})`);
+    });
+  videoDevices = devices.filter(d => d.kind === 'videoinput');
+  startStream(videoDevices[0]?.deviceId); // 默认启动第一个
+});
+
+function startStream(deviceId) {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+
+  const constraints = {
+    video: { deviceId: deviceId ? { exact: deviceId } : undefined },
+    audio: true
+  };
+
+  navigator.mediaDevices.getUserMedia(constraints).then(s => {
+    stream = s;
+    video.srcObject = stream;
+    currentDeviceId = deviceId;
+  }).catch(e => {
+    console.error('无法访问摄像头：', e);
+    alert('无法访问摄像头：' + e.message);
+  });
+}
+
+// 切换摄像头按钮
+switchBtn.onclick = () => {
+  if (videoDevices.length < 2) {
+    alert('只检测到一个摄像头，无法切换');
+    return;
+  }
+  currentDeviceIndex = (currentDeviceIndex + 1) % videoDevices.length;
+  const nextDeviceId = videoDevices[currentDeviceIndex].deviceId;
+  startStream(nextDeviceId);
+};
+
+// 拍照
+captureBtn.onclick = () => {
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0);
+};
+
+// 开始录制
+startBtn.onclick = () => {
+  recordedChunks = [];
+  mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+  mediaRecorder.ondataavailable = e => {
+    if (e.data.size > 0) recordedChunks.push(e.data);
+  };
+
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = 'recorded.webm';
+    downloadLink.style.display = 'inline-block';
+    downloadLink.textContent = '⬇️ 下载视频';
+  };
+
+  mediaRecorder.start();
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  downloadLink.style.display = 'none';
+};
+
+// 停止录制
+stopBtn.onclick = () => {
+  mediaRecorder.stop();
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+};
+</script>

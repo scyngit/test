@@ -1,0 +1,20 @@
+[
+  {
+    "type": "button",
+    "label": "按钮",
+    "subtype": "button",
+    "className": "btn-default btn",
+    "name": "button-1747722694850-0",
+    "access": false,
+    "style": "default"
+  },
+  {
+    "type": "date",
+    "required": false,
+    "label": "日期",
+    "className": "form-control",
+    "name": "date-1747722695241-0",
+    "access": false,
+    "subtype": "date"
+  }
+]
