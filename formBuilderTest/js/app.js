@@ -6,6 +6,12 @@ window.addEventListener('touchstart', e => {
     passive: false
 });
 
+// 全局滑动时失焦
+window.addEventListener('touchmove', e => {
+    document.activeElement?.blur?.();
+}, { passive: true });
+
+// 只在顶部往下拉时阻止刷新
 window.addEventListener('touchmove', e => {
     const currentY = e.touches[0].clientY;
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
